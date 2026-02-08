@@ -1,0 +1,51 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+android {
+    namespace 'com.example.llamaapp'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "com.example.llamaapp"
+        minSdk 24
+        targetSdk 36
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
+    }
+
+    packagingOptions {
+        doNotStrip "*/armeabi-v7a/libvosk.so"
+        doNotStrip "*/arm64-v8a/libvosk.so"
+        doNotStrip "*/x86/libvosk.so"
+        doNotStrip "*/x86_64/libvosk.so"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    implementation project(':llama')
+    implementation project(':vosk') // 新增 vosk 模块依赖
+
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.activity
+    implementation libs.constraintlayout
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+}
